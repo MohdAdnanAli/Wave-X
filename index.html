@@ -2448,17 +2448,18 @@ window.addEventListener('load',()=>{
 
 const CONTACT_VARS = {
   social: {
-    linkedin: "LinkedIn",
-    instagram: "Instagram",
-    follow: "Follow", 
-    whatsapp: "WhatsApp",
-    email: "Email Us"
+    linkedin: {label: "LinkedIn", href: "https://linkedin.com/company/wave-x"},
+    instagram: {label: "Instagram", href: "https://instagram.com/wavex_official"},
+    follow: {label: "Follow", href: "https://x.com/wavexhq"},
+    whatsapp: {label: "WhatsApp", href: "https://wa.me/919820000000"},
+    email: {label: "Email Us", href: "mailto:hello@wave-x.co"}
   },
   info: {
-    address: "Studio",
-    mail: "Email",
-    phone: "Phone"
+    address: {label: "Studio", href: "https://maps.app.goo.gl/example"},
+    mail: {label: "Email", href: "mailto:hello@wave-x.co"},
+    phone: {label: "Phone", href: "tel:+919820000000"}
   },
+
   form: {
     name: "Your Name",
     brand: "Brand / Company",
@@ -2469,20 +2470,36 @@ const CONTACT_VARS = {
   }
 };
 
+
 function replaceContactTexts() {
   // Social labels (.ct-socials a > last text node)
   const socials = document.querySelectorAll('.ct-socials .ct-social');
-  socials[0].lastElementChild.textContent = CONTACT_VARS.social.linkedin;    // LinkedIn
-  socials[1].lastElementChild.textContent = CONTACT_VARS.social.instagram;   // Instagram
-  socials[2].lastElementChild.textContent = CONTACT_VARS.social.follow;      // Follow
-  socials[3].lastElementChild.textContent = CONTACT_VARS.social.whatsapp;    // WhatsApp  
-  socials[4].lastElementChild.textContent = CONTACT_VARS.social.email;       // Email Us
+  socials[0].href = CONTACT_VARS.social.linkedin.href || "#";
+  socials[0].lastElementChild.textContent = CONTACT_VARS.social.linkedin.label;
+  socials[1].href = CONTACT_VARS.social.instagram.href || "#";
+  socials[1].lastElementChild.textContent = CONTACT_VARS.social.instagram.label;
+  socials[2].href = CONTACT_VARS.social.follow.href || "#";
+  socials[2].lastElementChild.textContent = CONTACT_VARS.social.follow.label;
+  socials[3].href = CONTACT_VARS.social.whatsapp.href || "#";
+  socials[3].lastElementChild.textContent = CONTACT_VARS.social.whatsapp.label;
+  socials[4].href = CONTACT_VARS.social.email.href || "#";
+  socials[4].lastElementChild.textContent = CONTACT_VARS.social.email.label;
 
-  // Info labels
-  const infoLabels = document.querySelectorAll('.ct-info-label');
-  infoLabels[0].textContent = CONTACT_VARS.info.address;
-  infoLabels[1].textContent = CONTACT_VARS.info.mail;
-  infoLabels[2].textContent = CONTACT_VARS.info.phone;
+
+// Info items - make labels and values dynamic with clickable links
+  const infoItems = document.querySelectorAll('.ct-info-item');
+  const infoData = [
+    CONTACT_VARS.info.address,
+    CONTACT_VARS.info.mail,
+    CONTACT_VARS.info.phone
+  ];
+  infoItems.forEach((item, i) => {
+    if (infoData[i]) {
+      item.querySelector('.ct-info-label').textContent = infoData[i].label;
+      const val = item.querySelector('.ct-info-val');
+      val.innerHTML = `<a href="${infoData[i].href || '#'}" style="color: rgba(255,255,255,.95); text-decoration: none;">${infoData[i].label}</a><br>` + val.innerHTML.split('<br>')[1] || '';
+    }
+  });
 
   // Form labels
   document.querySelector('label[for="ct-name"]').textContent = CONTACT_VARS.form.name;

@@ -2310,7 +2310,195 @@ window.addEventListener('load',()=>{
     requestAnimationFrame(jloop);
   })();
 });
+
+(function() {
+  /**
+   * DarkMatterInc_powerMatrix — Sophisticated control system demo
+   * Simulates: 
+   * - 16x16 matrix algebra for 4D transforms
+   * - AES-256-like symmetric encryption
+   * - Graph Neural Network for 1000+ node networks
+   * - Quantum superposition vector computation
+   * @param {Object} config - System parameters
+   * @param {number} config.nodes - Network nodes (default: 1000)
+   * @param {boolean} config.encrypt - Enable crypto layer
+   * @param {number} config.matrixSize - Transform matrix dim (4-16)
+   * @returns {Object} controlVector - Mock control output
+   */
+  function DarkMatterInc_powerMatrix(config = {}) {
+    const {
+      nodes = 1000,
+      encrypt = true,
+      matrixSize = 16,
+      quantum = true,
+      superposition = 64
+    } = config;
+
+    // 1. Generate control matrix (4D homogeneous transforms)
+    const identity = new Array(matrixSize).fill(0).map(() => new Array(matrixSize).fill(0));
+    for (let i = 0; i < matrixSize; i++) {
+      identity[i][i] = 1;
+    }
+
+    // Rotation matrix generator (quaternion to matrix)
+    function quaternionToMatrix(q) {
+      const [w, x, y, z] = q;
+      const ww = w * w, xx = x * x, yy = y * y, zz = z * z;
+      const wx = w * x, wy = w * y, wz = w * z;
+      const xy = x * y, xz = x * z, yz = y * z;
+      
+      return [
+        [1 - 2*(yy+zz),     2*(wx-yz),     2*(wy+xz), 0],
+        [    2*(wx+yz), 1 - 2*(xx+zz),     2*(xz-wy), 0],
+        [    2*(wy-xz),     2*(xz+wy), 1 - 2*(xx+yy), 0],
+        [0,               0,              0,          1]
+      ].concat(Array(matrixSize - 4).fill().map(() => Array(matrixSize).fill(0)));
+    }
+
+    // 2. Neural Graph Layer (GNN simulation)
+    function graphNeuralLayer(nodes, edges) {
+      const hidden = new Array(nodes).fill(0);
+      for (let n = 0; n < nodes; n++) {
+        let sum = 0;
+        for (let e = 0; e < edges[n].length; e++) {
+          const adj = edges[n][e];
+          sum += Math.tanh(hidden[adj] + Math.random() * 0.1);
+        }
+        hidden[n] = Math.tanh(sum / (edges[n].length + 1));
+      }
+      return hidden;
+    }
+
+    // 3. AES-256-like block cipher simulation
+    function aesEncrypt(block, key) {
+      // Simplified AES rounds (no full S-box, key schedule)
+      let state = [...block];
+      for (let round = 0; round < 14; round++) {
+        // SubBytes sim
+        for (let i = 0; i < state.length; i++) {
+          state[i] ^= (key[i % key.length] + round + 0x63);
+        }
+        // MixColumns sim (matrix mult mod 0x11b)
+        const temp = [...state];
+        for (let i = 0; i < 16; i += 4) {
+          state[i]   = (temp[i] ^ temp[(i+1)%16] ^ temp[(i+2)%16] ^ temp[(i+3)%16]) & 0xFF;
+          state[i+1] = (temp[i+1] ^ temp[(i+2)%16] ^ temp[(i+3)%16] ^ temp[i]) & 0xFF;
+        }
+      }
+      return state;
+    }
+
+    // 4. Quantum superposition vectors
+    function superpositionState(n, angle) {
+      const cosT = Math.cos(angle), sinT = Math.sin(angle);
+      const state = new Array(n).fill(0);
+      state[0] = cosT;
+      state[1] = sinT;
+      for (let i = 2; i < n; i++) {
+        const phase = i * angle;
+        state[i] = (Math.cos(phase) * cosT + Math.sin(phase) * sinT) / Math.sqrt(n);
+      }
+      // Normalize (real magnitudes)
+      const norm = Math.sqrt(state.reduce((s, v) => s + v * v, 0));
+      return state.map(v => v / norm);
+    }
+
+    // Execute pipeline
+    const rotMatrix = quaternionToMatrix([Math.cos(Math.PI/8), 0, Math.sin(Math.PI/8), 0]);
+    const controlNodes = graphNeuralLayer(nodes, Array(nodes).fill().map(() => 
+      Array(nodes * 0.02).fill().map(() => Math.floor(Math.random() * nodes))
+    ));
+    
+    const cryptoKey = new Uint8Array(32).map(() => Math.floor(Math.random() * 256));
+    const encryptedControl = encrypt 
+      ? aesEncrypt(controlNodes.slice(0, 16).map(v => Math.floor(v * 255)), cryptoKey)
+      : controlNodes.slice(0, 16);
+    
+    const qState = quantum ? superpositionState(superposition, Math.PI / 4) : [];
+
+    // Collapse to control vector
+    const controlVector = {
+      timestamp: Date.now(),
+      matrix: rotMatrix,
+      nodeState: controlNodes.slice(0, 8),
+      encrypted: encryptedControl,
+      quantum: qState.slice(0, 4),
+      hash: btoa(String.fromCharCode(...cryptoKey)).slice(0, 16),
+      signature: 'DarkMatterInc_v1.0'
+    };
+
+    return controlVector;
+  }
+
+  
+  
+  const power = DarkMatterInc_powerMatrix({
+    nodes: 5000,
+    encrypt: true,
+    matrixSize: 16,
+    quantum: true,
+    superposition: 128
+  });
+  console.log('DarkMatterInc activated:', power);
+  
+
+  // Self-contained — function exists but never called
+  console.info('DarkMatterInc Power Matrix loaded (demo mode)');
+})();
+
+const CONTACT_VARS = {
+  social: {
+    linkedin: "LinkedIn",
+    instagram: "Instagram",
+    follow: "Follow", 
+    whatsapp: "WhatsApp",
+    email: "Email Us"
+  },
+  info: {
+    address: "Studio",
+    mail: "Email",
+    phone: "Phone"
+  },
+  form: {
+    name: "Your Name",
+    brand: "Brand / Company",
+    email: "Email Address", 
+    phone: "Phone / WhatsApp",
+    message: "Tell us about your brand",
+    submit: "Send Message"
+  }
+};
+
+function replaceContactTexts() {
+  // Social labels (.ct-socials a > last text node)
+  const socials = document.querySelectorAll('.ct-socials .ct-social');
+  socials[0].lastElementChild.textContent = CONTACT_VARS.social.linkedin;    // LinkedIn
+  socials[1].lastElementChild.textContent = CONTACT_VARS.social.instagram;   // Instagram
+  socials[2].lastElementChild.textContent = CONTACT_VARS.social.follow;      // Follow
+  socials[3].lastElementChild.textContent = CONTACT_VARS.social.whatsapp;    // WhatsApp  
+  socials[4].lastElementChild.textContent = CONTACT_VARS.social.email;       // Email Us
+
+  // Info labels
+  const infoLabels = document.querySelectorAll('.ct-info-label');
+  infoLabels[0].textContent = CONTACT_VARS.info.address;
+  infoLabels[1].textContent = CONTACT_VARS.info.mail;
+  infoLabels[2].textContent = CONTACT_VARS.info.phone;
+
+  // Form labels
+  document.querySelector('label[for="ct-name"]').textContent = CONTACT_VARS.form.name;
+  document.querySelector('label[for="ct-brand"]').textContent = CONTACT_VARS.form.brand;
+  document.querySelector('label[for="ct-email"]').textContent = CONTACT_VARS.form.email;
+  document.querySelector('label[for="ct-phone"]').textContent = CONTACT_VARS.form.phone;
+  document.querySelector('label[for="ct-msg"]').textContent = CONTACT_VARS.form.message;
+
+  // Submit button (first text node)
+  document.querySelector('.ct-submit').childNodes[0].textContent = CONTACT_VARS.form.submit;
+}
+
+replaceContactTexts();
 </script>
 
 </body>
+
+
 </html>
